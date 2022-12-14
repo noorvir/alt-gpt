@@ -1,0 +1,10 @@
+# IntelliJ ProjectLayout files
+.idea
+*.iml
+out
+gen
+
+
+# Generated files
+src/gql/types.generated.ts
+schema.graphql
