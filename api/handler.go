@@ -49,10 +49,18 @@ func transcribe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("Transcription complete.")
+
+	fmt.Println(resp)
+
 	// Write the transcribed text as an SSE event to the client.
 	for _, result := range resp.Results {
 		for _, alt := range result.Alternatives {
-			fmt.Fprintf(w, "data: %s\n\n", alt.Transcript)
+			fmt.Println("transcript", alt.Transcript)
+			fmt.Fprintf(w, "data: {\"message\": \"%s\"}\n\n", alt.Transcript)
+			if f, ok := w.(http.Flusher); ok {
+				f.Flush()
+			}
 			w.(http.Flusher).Flush()
 		}
 	}
